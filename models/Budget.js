@@ -4,60 +4,48 @@ const sequelize = require("../config/connection.js");
 class Budget extends Model {}
 
 Budget.init(
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-            allowNull: false,
-        },
-
-        income: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            
-
-        },
-
-
-        needs: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            
-
-        },
-
-        
-           wants: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-
-           },
-        
-            savings: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-
-            },
-        
-
-        userId: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: 'user',
-                key: 'id'
-            },
-        },
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
     },
-    {
-        sequelize,
-        underscored: true,
-        timestamps: false,
-        modelName: 'budget',
-    }
 
+    income: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+
+    needs: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+
+    wants: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+
+    savings: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+
+    userId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: "user",
+        key: "id",
+      },
+    },
+  },
+  {
+    sequelize,
+    underscored: true,
+    timestamps: false,
+    modelName: "budget",
+  }
 );
-
-
 
 module.exports = Budget;
