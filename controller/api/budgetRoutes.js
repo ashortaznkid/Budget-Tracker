@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { Budget, Expense, } = require('../../models');
 
 // GET entire budget
-router.get('/', async (req, res) => {
+router.get('/', withAuth, async (req, res) => {
     try {
         const budgetData = await Budget.findAll();
         res.status(200).json(budgetData);
@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
     }
 });
 // Need to set-up seeds, rough template NEEDS REVISION
-router.get('/:id', async (req, res) => {
+router.get('/:id', withAuth, async (req, res) => {
     try {
         const budgetData = await Budget.findByPk( req.params.id, {
             // JOIN TABLE?
