@@ -1,14 +1,29 @@
 const router = require('express').Router();
-const { budgetData } = require("../../budgetData");
-const { expenseData } = require("../../expenseData");
-const withAuth = require("../../utils/auth");
+const { Budget, Expense, User } = require("../models");
+const withAuth = require("../utils/auth.js");
 
-router.get('/budget', withAuth, (req, res) => {
-  const allBudgetCategories = budgetData.getAllBudgetCategories();
-  res.json(allBudgetCategories);
+
+router.get('/home', withAuth, async (req, res) => {
+  //grab user that logged in
+  try {
+    const dbUserData = await User.findByPk(req.params.id, {
+      
+    });
+
+    const budget = dbBudgetData.map((budget) =>
+    budget.get({ plain: true })
+  );
+  res.render('homepage', {
+    budget,
+    loggedIn: req.session.loggedIn,
+  });
+} catch (err) {
+  console.log(err);
+  res.status(500).json(err);
+  }
 });
 
-router.get('/budget/:category', withAuth, (req, res) => {
+router.get('/budget/:category', withAuth, async (req, res) => {
   const category = req.params.category;
 
   try {
