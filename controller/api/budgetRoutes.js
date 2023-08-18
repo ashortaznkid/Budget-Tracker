@@ -2,6 +2,7 @@ const router = require("express").Router();
 const { Budget, Expense } = require("../../models");
 const withAuth = require("../../utils/auth");
 
+// POST /api/budget/budget
 router.post("/budget", withAuth, async (req, res) => {
   try {
     const { wants, needs, savings } = req.body;
@@ -22,6 +23,7 @@ router.post("/budget", withAuth, async (req, res) => {
   }
 });
 
+// GET api/budget
 router.get("/", withAuth, async (req, res) => {
   try {
     const budgetData = await Budget.find();
@@ -32,6 +34,7 @@ router.get("/", withAuth, async (req, res) => {
 });
 
 // Need to set-up seeds, rough template NEEDS REVISION
+// GET api/budget/:id (ex. api/budget/2)
 router.get("/:id", withAuth, async (req, res) => {
   try {
     const budgetData = await Budget.findByPk(req.params.id, {

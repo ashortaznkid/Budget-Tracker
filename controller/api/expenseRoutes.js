@@ -2,6 +2,7 @@ const router = require("express").Router();
 const { Expense } = require("../../models");
 const withAuth = require("../../utils/auth");
 
+// POST /api/expense
 router.post("/", withAuth, async (req, res) => {
   try {
     const { amount, description, category } = req.body;

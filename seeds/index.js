@@ -7,7 +7,7 @@ const seedAll = async () => {
   await sequelize.sync({ force: true });
 
   await seedUser();
-  await seedExpense();
+  // await seedExpense();
   await seedBudget();
 
   process.exit(0);
