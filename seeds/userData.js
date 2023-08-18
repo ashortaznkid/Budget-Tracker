@@ -1,3 +1,5 @@
+const { User } = require('../models');
+
 [
     {
      "name": "John",
@@ -10,4 +12,6 @@
      "email": "mariag@gmail.com",
      "password": "iloveeggs1234!"
     }
-]
+];
+
+module.exports = seedUser;
