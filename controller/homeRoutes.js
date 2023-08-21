@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { Budget, Expense, User } = require("../models");
 const withAuth = require("../utils/auth.js");
 
-
+// GET /home
 router.get('/home', withAuth, async (req, res) => {
   //grab user that logged in
   try {
@@ -23,6 +23,7 @@ router.get('/home', withAuth, async (req, res) => {
   }
 });
 
+// GET /budget/:category (ex. /budget/wants)
 router.get('/budget/:category', withAuth, async (req, res) => {
   const category = req.params.category;
 
@@ -39,6 +40,7 @@ router.get('/budget/:category', withAuth, async (req, res) => {
   }
 });
 
+// GET /budget/:category/expense (ex. /budget/needs/expense)
 router.get('/budget/:category/expense', async (req, res) => {
     const category = req.params.category;
   

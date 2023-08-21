@@ -2,6 +2,7 @@ const router = require("express").Router();
 const { User } = require("../../models");
 const { Expense } = require("../../models");
 
+//  POST /api/user/register
 router.post("/register", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -24,6 +25,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
+// POST /api/user/login 
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -53,6 +55,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// POST /api/user/logout
 router.post("/logout", (req, res) => {
   if (req.session.logged_in) {
     req.session.destroy(() => {
