@@ -22,7 +22,7 @@ Expense.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    user_id: {
+    budget_id: {
       type: DataTypes.INTEGER,
       references: {
         model: "user",
@@ -34,6 +34,7 @@ Expense.init(
     sequelize,
     underscored: true,
     timestamps: false,
+    freezeTableName: true,
     modelName: "expense",
   }
 );

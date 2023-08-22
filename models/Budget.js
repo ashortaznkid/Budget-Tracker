@@ -17,21 +17,6 @@ Budget.init(
       allowNull: false,
     },
 
-    needs: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-
-    wants: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-
-    savings: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-
     userId: {
       type: DataTypes.INTEGER,
       references: {
