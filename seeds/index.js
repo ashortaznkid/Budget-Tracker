@@ -1,16 +1,39 @@
-const sequelize = require("../config/connection");
-const seedBudget = require('./budgetData');
-const seedExpense = require('./expenseData');
-const seedUser = require('./userData')
+// const sequelize = require('../config/connection');
+// const { User, Expense, Budget } = require('../models');
 
-const seedAll = async () => {
-  await sequelize.sync({ force: true });
+// const userData = require('./userData.json');
+// const expenseData = require('./expenseData.json');
+// const budgetData = require('./budgetData.json');
 
+<<<<<<< HEAD
+// const seedDatabase = async () => {
+//   await sequelize.sync({ force: true });
+=======
   await seedUser();
   // await seedExpense();
   await seedBudget();
+>>>>>>> main
 
-  process.exit(0);
-};
+//   const users = await User.bulkcreate(userData, { 
+//     individualHooks: true, 
+//     returning: true, 
+//   });
 
-seedAll();
+//   for (const budget of budgetData) {
+//     await Budget.create({
+//       ...budget,
+//       user_id: users[Math.floor(Math.random() * users.length)].id,
+//     });
+//   }
+  
+//   for (const expense of expenseData) {
+//     await Expense.create({
+//       ...expense, 
+//       budget_id: users[Math.floor(Math.random() * users.length)].id,
+//     });
+//   }
+
+//   process.exit(0);
+// };
+
+// seedDatabase();
