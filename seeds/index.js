@@ -5,8 +5,14 @@
 // const expenseData = require('./expenseData.json');
 // const budgetData = require('./budgetData.json');
 
+<<<<<<< HEAD
 // const seedDatabase = async () => {
 //   await sequelize.sync({ force: true });
+=======
+  await seedUser();
+  // await seedExpense();
+  await seedBudget();
+>>>>>>> main
 
 //   const users = await User.bulkcreate(userData, { 
 //     individualHooks: true, 

@@ -1,51 +1,48 @@
 const router = require("express").Router();
-const { Budget, Expense } = require("../../models");
-const withAuth = require("../../utils/auth");
+const { Budget, Expense, User } = require('../../models');
 
-router.post("/budget", withAuth, async (req, res) => {
+router.post('/', async(req, res) =>{
+  console.log (req.body)
   try {
-    const { wants, needs, savings } = req.body;
-
-    const newBudget = new Budget({
-      wants,
-      needs,
-      savings,
+    const budgetData = await Budget.create({
+      ...req.body,
+      user_id: req.session.user_id,
     });
-
-    const savedBudget = await newBudget.save();
-
-    res.status(200).json(savedBudget);
+    res.status(200).json(workoutData);
   } catch (error) {
-    res
-      .status(400)
-      .json({ error: "An error occurred while submitting the budget." });
+    res.status(400).json(error);
   }
 });
 
-router.get("/", withAuth, async (req, res) => {
+// GET api/budget
+router.get('/', async(req, res) => {
   try {
-    const budgetData = await Budget.find();
+    const budgetData = await Budget.findAll({
+      where: {
+        user_id: req.session.user_id
+      },
+      include: [{ model: Expense }]
+    });
     res.status(200).json(budgetData);
-  } catch (erorr) {
-    res.status(400).json({ message: "Failed to retrieve budget" });
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 
 // Need to set-up seeds, rough template NEEDS REVISION
-router.get("/:id", withAuth, async (req, res) => {
+// GET api/budget/:id (ex. api/budget/2)
+router.put('/:id', async(req, res) => {
   try {
-    const budgetData = await Budget.findByPk(req.params.id, {
-      // JOIN TABLE?
-      include: [{ model: Budget, through: Expense, as: "budget_expenses" }],
+    const budgetData = await Budget.addHook.update(req.body, {
+      where: { id: req.params.id}
     });
-
-    if (!budgetData) {
-      res.status(404).json({ message: "No category found within budget!" });
+    if(!budgetData[0]){
+      res.status(404).json({ message: 'Budget is empty!'});
       return;
     }
-    res.status(200).json(budgetData);
-  } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(error);
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 

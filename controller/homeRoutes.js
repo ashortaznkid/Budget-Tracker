@@ -1,58 +1,65 @@
+const { Budget, Expense, User } = require('../models');
 const router = require('express').Router();
-const { Budget, Expense, User } = require("../models");
-const withAuth = require("../utils/auth.js");
+const withAuth = require('../utils/auth');
 
+// GET /home
+router.get('/', async(req, res) => {
+  if (req.session.loggedIn){
+    res.redirect('/profile');
+    return;
+  }
+  res.render('register')
+});
 
-router.get('/home', withAuth, async (req, res) => {
-  //grab user that logged in
+// GET /budget/:category (ex. /budget/wants)
+router.get('/profile', withAuth, async(req, res) => {
   try {
-    const dbUserData = await User.findByPk(req.params.id, {
-      
+    const userData = await User.findByPk(req.session.user_id, {
+      attributes: { exclude: ['password'] },
+      include: [{ model: Budget }],
     });
+  
+    const user = userData.get({ plain: true });
 
-    const budget = dbBudgetData.map((budget) =>
-    budget.get({ plain: true })
-  );
-  res.render('homepage', {
-    budget,
-    loggedIn: req.session.loggedIn,
-  });
-} catch (err) {
-  console.log(err);
-  res.status(500).json(err);
+    res.render('profile', {
+      ...user,
+      logged_in: true
+    });
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 
-router.get('/budget/:category', withAuth, async (req, res) => {
-  const category = req.params.category;
-
+// GET /budget/:category/expense (ex. /budget/needs/expense)
+router.get('/budget', async(req, res) => {
   try {
-    const budgetCategory = await BudgetCategory.findOne({ category });
+    const dbBudgetData = await Budget.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'username'],
+        },
+      ],
+    });
+    const budget = dbBudgetData.map((workout) =>
+    workout.get({ plain: true }));
+    req.session.save(() => {
+      if (req.session.countVisit) {
+        req.session.countVisit++;
+      } else {
+        req.session.countVisit = 1;
+      }
 
-    if (!budgetCategory) {
-      return res.status(400).json({ error: 'Budget category not found' });
-    }
-
-    res.json(budgetCategory);
+      res.render('budgetList', {
+        budget,
+        countVisit: req.session.countVisit,
+        loggedIn: req.session.loggedIn,
+      });
+    });
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    console.log(error);
+    res.status(500).json('Render error');
   }
 });
-
-router.get('/budget/:category/expense', async (req, res) => {
-    const category = req.params.category;
-  
-    try {
-      const expense = await Expense.findOne({ category });
-  
-      if (!expense) {
-        return res.status(404).json({ error: 'Expense not found' });
-      }
-  
-      res.json(expense);
-    } catch (error) {
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  });
 
 module.exports = router;
