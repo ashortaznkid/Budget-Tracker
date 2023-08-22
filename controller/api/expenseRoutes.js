@@ -1,27 +1,50 @@
-const router = require("express").Router();
-const { Expense } = require("../../models");
-const withAuth = require("../../utils/auth");
+const router = require('express').Router();
+const { where } = require('sequelize');
+const { Expense } = require('../../models');
 
-// POST /api/expense
-router.post("/", withAuth, async (req, res) => {
+router.post('/', async (req, res) => {
+  console.log(req.body)
   try {
-    const { amount, description, category } = req.body;
-
-    const newExpense = new Expense({
-      userId: req.userId,
-      amount,
-      description,
-      category,
-    });
-
-    await newExpense.save();
-
-    res.status(200).json({ message: "Expense submitted successfully." });
+    const expenseData = await Expense.create({...req.body, budget_id: req.params.budget_id,});
+    res.status(200).json(expenseData);
   } catch (error) {
-    res
-      .status(400)
-      .json({ error: "An error occurred while submitting the expense." });
+    res.status(400).json(error);
   }
 });
+
+router.put('/:id', async(req, res) => {
+  try {
+    const expenseData = await Expense.update(req.body, {
+      where: {
+        id: req.params.id
+      }
+    });
+    if(!expenseData[0]) {
+      res.status(404).json({ message: 'No expense found with this id'});
+      return;
+    }
+    res.status(200).json(expenseData);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.delete('/:id', async(req, res) => {
+  try {
+    const expenseData = await Expense.destroy({
+      where: {
+        id: req.params.id,
+      }
+    });
+    if (!expenseData) {
+      res.status(404).json({ message: 'No expense found with this id'});
+      return;
+    }
+    res.status(200).json(expenseData);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 
 module.exports = router;
