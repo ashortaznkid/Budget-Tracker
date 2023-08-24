@@ -6,4 +6,6 @@ const homeRoutes = require('./homeRoutes.js');
 router.use('/', homeRoutes)
 router.use('/api', apiRoutes);
 
+router.all("*", (req, res) => res.redirect('/'));
+
 module.exports = router;

@@ -8,7 +8,7 @@ router.post('/', async(req, res) =>{
       ...req.body,
       user_id: req.session.user_id,
     });
-    res.status(200).json(workoutData);
+    res.status(200).json(budgetData);
   } catch (error) {
     res.status(400).json(error);
   }

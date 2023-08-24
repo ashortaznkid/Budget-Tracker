@@ -20,7 +20,7 @@ router.get('/profile', withAuth, async(req, res) => {
     });
   
     const user = userData.get({ plain: true });
-
+    console.log("Da user", user);
     res.render('profile', {
       ...user,
       logged_in: true
@@ -41,8 +41,8 @@ router.get('/budget', async(req, res) => {
         },
       ],
     });
-    const budget = dbBudgetData.map((workout) =>
-    workout.get({ plain: true }));
+    const budget = dbBudgetData.map((budget) =>
+    budget.get({ plain: true }));
     req.session.save(() => {
       if (req.session.countVisit) {
         req.session.countVisit++;

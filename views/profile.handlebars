@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="col-auto">
+        <h2>Welcome, {{username}}!</h2>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <h3>Enter Expense</h3>
+            <form class="form new-expense-form">
+                <div class="form-group">
+                     <label for="expense-amount">Amount:</label>
+                    <input class="form-control" type="number" id="expense-amount" name="expense-amount"/>
+                 </div>
+                <div class="form-group">
+                    <label for="expense-description">Description:</label>
+                  <input class="form-control" type="text" id="expense-description" name="expense-description"/>
+                 </div>
+                <div class="form-group">
+                     <label for="expense-category">Category:</label>
+                     <input class="form-control" type="text" id="expense-category" name="expense-category"/>
+                </div>
+                <div class="form-group">
+                     <button type="submit" class="btn btn-primary">Submit</button>
+                 </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <div class="col-md-6 expense-list">
+        {{#if expense.length}}
+            <h3>Expenses</h3>
+            {{#each expenses as |expense|}}
+             <div class="card mb-3">
+                <div class="card-body">
+                    <h4><a href="/expense/{{expense.id}}">{{expense.description}}</a></h4>
+                     <p>Amount: {{expense.amount}}</p>
+                    <p>Category: {{expense.category}}</p>
+                    <button class="btn btn-sm btn-danger" data-id="{{expense.id}}">DELETE</button>
+                </div>
+            </div>
+            {{/each}}
+        {{/if}}
+    </div>
+</div>
+
+<script src="/js/profile.js"></script>
